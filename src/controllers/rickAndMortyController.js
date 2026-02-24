@@ -5,6 +5,13 @@ exports.getCharacters = async (req, res, next) => {
   try {
     // Pagina por defecto 1
     const { page = 1 } = req.query;
+
+    // Validacion si page no es un numero
+    // le asignamos la pagina por defecto
+    if (isNaN(page)) {
+      page = 1;
+    }
+
     const response = await axios.get(
       `https://rickandmortyapi.com/api/character/?page=${page}`,
     );
