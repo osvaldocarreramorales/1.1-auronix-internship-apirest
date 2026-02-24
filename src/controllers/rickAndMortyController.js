@@ -3,8 +3,10 @@ const axios = require("axios");
 // Endpoint para obtener los personajes con nombres modificados y filtrados
 exports.getCharacters = async (req, res, next) => {
   try {
+    // Pagina por defecto 1
+    const { page = 1 } = req.query;
     const response = await axios.get(
-      "https://rickandmortyapi.com/api/character",
+      `https://rickandmortyapi.com/api/character/?page=${page}`,
     );
     const data = response.data;
     // Filtrado de personajes con status = alive
@@ -19,9 +21,11 @@ exports.getCharacters = async (req, res, next) => {
       name: character.name.replace(/\s+/g, "_"),
       status: character.status,
       gender: character.gender,
+      image: character.image,
     }));
 
     res.json({
+      prevPage: data.info.prev,
       nextPage: data.info.next,
       results: finalData,
     });
