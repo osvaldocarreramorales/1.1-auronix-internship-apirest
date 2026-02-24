@@ -37,7 +37,7 @@ exports.getCharacters = async (req, res, next) => {
       if (!externalURL) return null;
       const urlObj = new URL(externalURL);
       const pageNum = urlObj.searchParams.get("page");
-      return `htttp://localhost:3000/api/characters?page=${pageNum}`;
+      return `http://localhost:3000/api/characters?page=${pageNum}`;
     };
 
     res.json({
