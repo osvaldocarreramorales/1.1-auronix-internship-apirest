@@ -4,7 +4,7 @@ const axios = require("axios");
 exports.getCharacters = async (req, res, next) => {
   try {
     // Pagina por defecto 1
-    const { page = 1 } = req.query;
+    let { page = 1 } = req.query;
 
     // Validacion si page no es un numero
     // le asignamos la pagina por defecto
@@ -15,6 +15,12 @@ exports.getCharacters = async (req, res, next) => {
     const response = await axios.get(
       `https://rickandmortyapi.com/api/character/?page=${page}`,
     );
+
+    // validacion de la respuesta si no es 200 se lanza un error
+    if (response.status !== 200) {
+      throw new Error("Error al obtener los datos de la api");
+    }
+
     const data = response.data;
     // Filtrado de personajes con status = alive
     const filteredData = data.results.filter((character) =>
@@ -40,7 +46,7 @@ exports.getCharacters = async (req, res, next) => {
       return `http://localhost:3000/api/characters?page=${pageNum}`;
     };
 
-    res.json({
+    res.status(200).json({
       prevPage: formatLocalUrl(data.info.prev),
       nextPage: formatLocalUrl(data.info.next),
       results: finalData,
