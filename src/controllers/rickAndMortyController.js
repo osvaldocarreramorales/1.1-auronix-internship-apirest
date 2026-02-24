@@ -31,9 +31,18 @@ exports.getCharacters = async (req, res, next) => {
       image: character.image,
     }));
 
+    // Tranformacion de ruta externa en una ruta local
+    // Para seguir haciendo peticiones pero a mi api local
+    const formatLocalUrl = (externalURL) => {
+      if (!externalURL) return null;
+      const urlObj = new URL(externalURL);
+      const pageNum = urlObj.searchParams.get("page");
+      return `htttp://localhost:3000/api/characters?page=${pageNum}`;
+    };
+
     res.json({
-      prevPage: data.info.prev,
-      nextPage: data.info.next,
+      prevPage: formatLocalUrl(data.info.prev),
+      nextPage: formatLocalUrl(data.info.next),
       results: finalData,
     });
   } catch (err) {
