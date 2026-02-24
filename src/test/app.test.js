@@ -36,6 +36,7 @@ describe("test de integracion", () => {
     it("Deberia devolver las propiedades de los personajes correctamente", async () => {
       const response = await fetch(`http://localhost:${PORT}/api/characters`);
       const data = await response.json();
+      
       expect(response.status).toBe(200);
       // Expect lo que devuelve el endpoint toBe lo que esperamos que devuelva
       expect(data.results[0]).toHaveProperty("id");

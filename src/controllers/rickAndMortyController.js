@@ -16,11 +16,6 @@ exports.getCharacters = async (req, res, next) => {
       `https://rickandmortyapi.com/api/character/?page=${page}`,
     );
 
-    // validacion de la respuesta si no es 200 se lanza un error
-    if (response.status !== 200) {
-      throw new Error("Error al obtener los datos de la api");
-    }
-
     const data = response.data;
     // Filtrado de personajes con status = alive
     const filteredData = data.results.filter((character) =>
