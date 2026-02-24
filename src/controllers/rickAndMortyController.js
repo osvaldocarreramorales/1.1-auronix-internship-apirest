@@ -12,9 +12,18 @@ exports.getCharacters = async (req, res, next) => {
       character.status.toLowerCase().includes("alive"),
     );
 
+    // Tranformacion de datos dejando unicamente las propiedades del requerimiento
+    // Remplazo de espacios por guiones bajo utilizando expresion regular
+    const finalData = filteredData.map((character) => ({
+      id: character.id,
+      name: character.name.replace(/\s+/g, "_"),
+      status: character.status,
+      gender: character.gender,
+    }));
+
     res.json({
       nextPage: data.info.next,
-      results: filteredData,
+      results: finalData,
     });
   } catch (err) {
     next(err);
